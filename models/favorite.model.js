@@ -4,7 +4,7 @@ var mongoose = require("mongoose");
 
 const favoriteSchema = new mongoose.Schema({
     userId: {
-        type: moonose.Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: "User",
         required: true,
     },
