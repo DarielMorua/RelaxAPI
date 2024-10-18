@@ -9,6 +9,7 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true },
   phone: { type: String, required: true },
   country: { type: String, required: true },
+  active: { type: Boolean, default: true },
 });
 
 module.exports = mongoose.model("User", userSchema);
