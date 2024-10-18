@@ -4,15 +4,15 @@ var mongoose = require("mongoose");
 var userController = require("../controllers/users.controllers");
 
 //obtener usuario por id
-router.get("/:id", userController.getUser);
+router.post("/obtener", userController.getUser);
 
 //crear usuario
 router.post("/crear", userController.createUser);
 
 //actualizar usuario por id
-router.put("/actualizar/:id", userController.updateUser);
+router.post("/actualizar", userController.updateUser);
 
 //desactivar, no borrar usuario por id
-router.post("/eliminar/:id", userController.deleteUser);
+router.post("/eliminar", userController.deleteUser);
 
 module.exports = router;
