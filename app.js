@@ -4,6 +4,9 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var mongoose = require("mongoose");
+require("dotenv").config();
+
+const mongo = process.env.MONGO_DB;
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
@@ -11,7 +14,7 @@ var usersRouter = require("./routes/users");
 var app = express();
 
 mongoose
-  .connect("mongodb+srv://relax:juvadomiRelaxAPP@relaxapp.3x17t.mongodb.net/", {
+  .connect(mongo, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
