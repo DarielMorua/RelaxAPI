@@ -3,10 +3,12 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var mongoose = require("mongoose");
+const url = "mongodb+srv://relax:juvadomiRelaxAPP@relaxapp.3x17t.mongodb.net/";
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var profesionalRouter = require('./routes/profesionales');
+var profesionalRouter = require('./routes/professionals');
 
 var app = express();
 
@@ -22,12 +24,19 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/profesionales', profesionalRouter);
+app.use('/professionals', profesionalRouter);
+
+// Conexión a la base de datos
+mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log("Conexión exitosa a la base de datos"))
+  .catch((error) => console.log("Error al conectar a la base de datos", error));
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
 });
+
 
 // error handler
 app.use(function(err, req, res, next) {

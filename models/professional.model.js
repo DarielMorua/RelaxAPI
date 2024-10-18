@@ -38,4 +38,14 @@ const profesionalSchema = new mongoose.Schema({
         type: ubicacionSchema,
         required: true,
     },
+    isActive: {
+        type: Boolean,
+        default: true,
+    },
 });
+
+// Crear el modelo basado en el esquema
+const Profesional = mongoose.model('Profesional', profesionalSchema);
+
+// Exportar el modelo, no solo el esquema
+module.exports = Profesional;
