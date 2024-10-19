@@ -2,6 +2,8 @@ var express = require("express");
 var router = express.Router();
 var mongoose = require("mongoose");
 const Favorite = require("../models/favorite.model");
+const Professional = require("../models/professional.model");
+const User = require("../models/users.models");
 
 async function crearFavorito(req, res) {
   try {
