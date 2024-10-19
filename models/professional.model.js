@@ -42,6 +42,10 @@ const profesionalSchema = new mongoose.Schema({
         type: Boolean,
         default: true,
     },
+    isFavorite: {
+        type: Boolean,
+        default: false,
+    },
 });
 
 // Crear el modelo basado en el esquema
