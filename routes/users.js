@@ -1,9 +1,18 @@
-var express = require('express');
+var express = require("express");
 var router = express.Router();
+var mongoose = require("mongoose");
+var userController = require("../controllers/users.controllers");
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+//obtener usuario por id
+router.post("/obtener", userController.getUser);
+
+//crear usuario
+router.post("/crear", userController.createUser);
+
+//actualizar usuario por id
+router.post("/actualizar", userController.updateUser);
+
+//desactivar, no borrar usuario por id
+router.post("/eliminar", userController.deleteUser);
 
 module.exports = router;
