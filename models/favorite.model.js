@@ -15,6 +15,10 @@ const favoriteSchema = new mongoose.Schema({
   },
 });
 
-const Favorite = mongoose.model("Favorite", favoriteSchema);
 
+<<<<<<< HEAD
 module.exports = Favorite;
+=======
+
+module.exports = mongoose.model("Favorite", favoriteSchema);
+>>>>>>> c9ca41e5b535efcfc71e7d32cfeb0a18445104ac

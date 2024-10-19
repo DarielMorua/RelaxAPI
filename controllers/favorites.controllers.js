@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router();
 var mongoose = require("mongoose");
+const Favorite = require("../models/favorite.model");
 
 async function crearFavorito(req, res) {
   try {
