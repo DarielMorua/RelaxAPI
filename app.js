@@ -12,6 +12,7 @@ const mongo = process.env.MONGO_DB;
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var profesionalRouter = require("./routes/professionals");
+var favoriteRouter = require("./routes/favorite");
 
 var app = express();
 
@@ -41,6 +42,7 @@ app.use("/professionals", profesionalRouter);
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
+app.use("/favorite", favoriteRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
