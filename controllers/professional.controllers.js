@@ -151,6 +151,7 @@ async function showAllProfessionals(req, res) {
     res.status(500).json({ error: "Error al obtener profesionales" });
   }
 }
+//a
 
 module.exports = {
   createProfessional,
