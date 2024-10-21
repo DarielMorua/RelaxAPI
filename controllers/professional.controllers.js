@@ -1,6 +1,8 @@
 var express = require("express");
 var router = express.Router();
 const profesionalModel = require("../models/professional.model");
+const Review = require("../models/review.model");
+const Profesional = require("../models/professional.model");
 
 async function createProfessional(req, res, next) {
   try {
@@ -104,9 +106,44 @@ async function deleteProfessional(req, res, next) {
   }
 }
 
+async function giveReview(req, res) {
+  try {
+    // Crear una nueva reseña con comentario score y los IDs
+    const { comment, score, professionalId, userId } = req.body;
+    const newReview = new Review({
+      comment,
+      score,
+      professionalId,
+      userId,
+    });
+    await newReview.save();
+
+    // Buscar el profesional y agregar la nueva reseña
+    const professional = await Profesional.findById(professionalId);
+    professional.reviews.push(newReview._id);
+
+    // Calcular el nuevo promedio de calificación
+    const reviews = await Review.find({ professionalId: professionalId });
+
+    //el promedio se calcula agarrando todo lo del array y se itera
+    const totalScore = reviews.reduce((sum, review) => sum + review.score, 0);
+    professional.score = totalScore / reviews.length;
+
+    await professional.save();
+
+    res.status(201).json({
+      message: "Review agregada y score actualizade",
+      review: newReview,
+    });
+  } catch (error) {
+    res.status(500).json({ error: "Error al agregar review" + error.message });
+  }
+}
+
 module.exports = {
   createProfessional,
   findProfessional,
   updateProfessional,
   deleteProfessional,
+  giveReview,
 };

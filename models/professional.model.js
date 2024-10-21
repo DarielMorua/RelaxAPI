@@ -20,8 +20,14 @@ const profesionalSchema = new mongoose.Schema({
   },
   score: {
     type: Number,
-    required: true,
+    default: 0,
   },
+  reviews: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Review",
+    },
+  ],
   creationDate: {
     type: Date,
     required: true,
