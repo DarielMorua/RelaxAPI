@@ -4,6 +4,7 @@ var mongoose = require("mongoose");
 const Favorite = require("../models/favorite.model");
 const Professional = require("../models/professional.model");
 const User = require("../models/users.models");
+const Review = require("../models/review.model");
 
 async function crearFavorito(req, res) {
   try {
