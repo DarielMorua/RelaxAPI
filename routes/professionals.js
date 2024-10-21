@@ -7,12 +7,17 @@ var professionalController = require("../controllers/professional.controllers");
 router.post("/crear-profesional", professionalController.createProfessional);
 
 // Mostrar profesional
-router.post("/mostrar-profesionales", professionalController.findProfessional);
+router.post("/mostrar-profesional", professionalController.findProfessional);
 
 // Actualizar profesional
 router.post(
   "/actualizar-profesional",
   professionalController.updateProfessional
+);
+
+router.post(
+  "/mostrar-profesionales",
+  professionalController.showAllProfessionals
 );
 
 // Desactivar profesinal

@@ -140,10 +140,21 @@ async function giveReview(req, res) {
   }
 }
 
+//obtener todos los profesionales solo foto y nombre
+async function showAllProfessionals(req, res) {
+  try {
+    const professionals = await Profesional.find({}, { name: 1, photo: 1 });
+    res.status(200).json(professionals);
+  } catch (error) {
+    res.status(500).json({ error: "Error al obtener profesionales" });
+  }
+}
+
 module.exports = {
   createProfessional,
   findProfessional,
   updateProfessional,
   deleteProfessional,
   giveReview,
+  showAllProfessionals,
 };
