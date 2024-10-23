@@ -5,6 +5,14 @@ const Favorite = require("../models/favorite.model");
 const Professional = require("../models/professional.model");
 const User = require("../models/users.models");
 const Review = require("../models/review.model");
+const privateKey = "myprivatekey";
+const jwt = require("jsonwebtoken");
+
+const payload = {
+  name: "Jane Doe",
+  profile: "GUEST",
+  exp: Math.floor(Date.now() / 1000) + 60 * 60,
+};
 
 async function crearFavorito(req, res) {
   try {
@@ -20,7 +28,7 @@ async function crearFavorito(req, res) {
     await newFavorite.save();
 
     // Actualizar el campo isFavorite del profesional a true
-    await Professional.findByIdAndUpdate(professionalId, { isFavorite: true });
+    await User.findByIdAndUpdate(userId, { favorites: professionalId });
 
     res.status(200).json({
       message: "Profesional agregado como favorito y actualizado con éxito",
@@ -101,8 +109,31 @@ async function removerFavoritos(req, res) {
   }
 }
 
+async function verifyToken(req, res, next) {
+  const authHeader = req.headers.authorization;
+  if (!authHeader) {
+    return res.status(403).json({ message: "Token no proporcionado" });
+  }
+  let authToken;
+  if (authHeader && authHeader.length) {
+    const tokenParts = authHeader.split(" ");
+    if (tokenParts.length === 2) {
+      authToken = tokenParts[1];
+      console.log(authToken);
+    }
+    try {
+      await jwt.verify(authToken, privateKey);
+      next();
+    } catch (error) {
+      console.log(error);
+      return res.status(403).json({ message: "Token inválido" });
+    }
+  }
+}
+
 module.exports = {
   crearFavorito,
   buscarFavoritos,
   removerFavoritos,
+  verifyToken,
 };

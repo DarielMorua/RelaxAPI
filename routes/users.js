@@ -7,7 +7,7 @@ var userController = require("../controllers/users.controllers");
 router.post("/obtener", userController.verifyToken, userController.getUser);
 
 //crear usuario
-router.post("/crear", userController.verifyToken, userController.createUser);
+router.post("/crear", userController.createUser);
 
 //actualizar usuario por id
 router.post(

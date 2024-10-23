@@ -3,6 +3,15 @@ var router = express.Router();
 const profesionalModel = require("../models/professional.model");
 const Review = require("../models/review.model");
 const Profesional = require("../models/professional.model");
+const jwt = require("jsonwebtoken");
+
+const privateKey = "myprivatekey";
+
+const payload = {
+  name: "Jane Doe",
+  profile: "GUEST",
+  exp: Math.floor(Date.now() / 1000) + 60 * 60,
+};
 
 async function createProfessional(req, res, next) {
   try {
@@ -152,6 +161,28 @@ async function showAllProfessionals(req, res) {
   }
 }
 
+async function verifyToken(req, res, next) {
+  const authHeader = req.headers.authorization;
+  if (!authHeader) {
+    return res.status(403).json({ message: "Token no proporcionado" });
+  }
+  let authToken;
+  if (authHeader && authHeader.length) {
+    const tokenParts = authHeader.split(" ");
+    if (tokenParts.length === 2) {
+      authToken = tokenParts[1];
+      console.log(authToken);
+    }
+    try {
+      await jwt.verify(authToken, privateKey);
+      next();
+    } catch (error) {
+      console.log(error);
+      return res.status(403).json({ message: "Token inválido" });
+    }
+  }
+}
+
 module.exports = {
   createProfessional,
   findProfessional,
@@ -159,4 +190,5 @@ module.exports = {
   deleteProfessional,
   giveReview,
   showAllProfessionals,
+  verifyToken,
 };
