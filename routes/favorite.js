@@ -4,13 +4,24 @@ var mongoose = require("mongoose");
 var favoriteController = require("../controllers/favorites.controllers");
 
 // Crear favorito
-router.post("/crear-favorito", favoriteController.crearFavorito);
+router.post(
+  "/crear-favorito",
+  favoriteController.verifyToken,
+  favoriteController.crearFavorito
+);
 
 // Mostrar favoritos
-router.post('/ver-favoritos', favoriteController.buscarFavoritos);
+router.post(
+  "/ver-favoritos",
+  favoriteController.verifyToken,
+  favoriteController.buscarFavoritos
+);
 
 // Remover favorito
-router.post('/remover-favorito', favoriteController.removerFavoritos);
-
+router.post(
+  "/remover-favorito",
+  favoriteController.verifyToken,
+  favoriteController.removerFavoritos
+);
 
 module.exports = router;

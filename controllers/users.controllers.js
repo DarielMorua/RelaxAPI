@@ -35,7 +35,16 @@ async function createUser(req, res) {
     const user = await User.create(req.body);
     res.status(200).json(user);
   } catch (error) {
-    res.status(400).json({ "Error al crear usuario": error.message });
+    if (error.code === 11000) {
+      // Error de clave duplicada (E11000)
+      const field = Object.keys(error.keyValue)[0]; // Captura el campo duplicado (email o phone)
+      res
+        .status(400)
+        .json({ message: `Error: el campo '${field}' ya está en uso.` });
+    } else {
+      // Otro tipo de error
+      res.status(400).json({ "Error al crear usuario": error.message });
+    }
   }
 }
 
@@ -89,9 +98,13 @@ async function login(req, res) {
     // Buscar el usuario por el email
     const user = await User.findOne({ email, password });
 
-     // Verificar si la contraseña es correcta
-     if (!user || user.password !== password) {
-      return res.status(404).json({ message: "Usuario o Contraseña incorrecto" });
+    // Verificar si la contraseña es correcta
+    if (!user || user.password !== password) {
+      return res
+        .status(404)
+        .json({ message: "Usuario o Contraseña incorrecto" });
+    } else if (user.active === false) {
+      return res.status(404).json({ message: "Usuario desactivado" });
     } else {
       console.log("Confirmación de sesión");
     }

@@ -4,26 +4,44 @@ var mongoose = require("mongoose");
 var professionalController = require("../controllers/professional.controllers");
 
 // Crear profesional
-router.post("/crear-profesional", professionalController.createProfessional);
+router.post(
+  "/crear-profesional",
+  professionalController.verifyToken,
+  professionalController.createProfessional
+);
 
 // Mostrar profesional
-router.post("/mostrar-profesional", professionalController.findProfessional);
+router.post(
+  "/mostrar-profesional",
+  professionalController.verifyToken,
+  professionalController.findProfessional
+);
 
 // Actualizar profesional
 router.post(
   "/actualizar-profesional",
+  professionalController.verifyToken,
   professionalController.updateProfessional
 );
 
 router.post(
   "/mostrar-profesionales",
+  professionalController.verifyToken,
   professionalController.showAllProfessionals
 );
 
 // Desactivar profesinal
-router.post("/eliminar-profesional", professionalController.deleteProfessional);
+router.post(
+  "/eliminar-profesional",
+  professionalController.verifyToken,
+  professionalController.deleteProfessional
+);
 
 // Dar Review
-router.post("/give-review", professionalController.giveReview);
+router.post(
+  "/give-review",
+  professionalController.verifyToken,
+  professionalController.giveReview
+);
 
 module.exports = router;
