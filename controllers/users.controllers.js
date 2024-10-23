@@ -2,6 +2,15 @@ var express = require("express");
 var router = express.Router();
 var mongoose = require("mongoose");
 var User = require("../models/users.models");
+const jwt = require("jsonwebtoken");
+
+const privateKey = "myprivatekey";
+
+const payload = {
+  name: "Jane Doe",
+  profile: "GUEST",
+  exp: Math.floor(Date.now() / 1000) + 60 * 60,
+};
 
 //obtener usuario por id
 async function getUser(req, res) {
@@ -72,9 +81,68 @@ async function deleteUser(req, res) {
     res.status(400).json({ "Error al eliminar usuario": error.message });
   }
 }
+
+async function login(req, res, next) {
+  const { email, password } = req.body;
+
+  try {
+    // Buscar el usuario por el email
+    const user = await User.findOne({ email, password });
+
+    if (!user) {
+      return res.status(404).json({ message: "Usuario no encontrado" });
+    }
+
+    try {
+      const newToken = await jwt.sign(payload, privateKey, {
+        algorithm: "HS256",
+      });
+      res.json({
+        message: "Login exitoso",
+        token: newToken,
+        user: {
+          name: user.name,
+          email: user.email,
+          phone: user.phone,
+          country: user.country,
+        },
+      });
+    } catch (error) {
+      console.log(error, "JWT error");
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Error en el servidor", error: error });
+  }
+}
+
+async function verifyToken(req, res, next) {
+  const authHeader = req.headers.authorization;
+  if (!authHeader) {
+    return res.status(403).json({ message: "Token no proporcionado" });
+  }
+  let authToken;
+  if (authHeader && authHeader.length) {
+    const tokenParts = authHeader.split(" ");
+    if (tokenParts.length === 2) {
+      authToken = tokenParts[1];
+      console.log(authToken);
+    }
+    try {
+      await jwt.verify(authToken, privateKey);
+      next();
+    } catch (error) {
+      console.log(error);
+      return res.status(403).json({ message: "Token inválido" });
+    }
+  }
+}
+
 module.exports = {
   getUser,
   createUser,
   updateUser,
   deleteUser,
+  login,
+  verifyToken,
 };
