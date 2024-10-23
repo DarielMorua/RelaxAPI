@@ -1,110 +1,12 @@
 var express = require("express");
 var router = express.Router();
 var mongoose = require("mongoose");
+var appointmentController = require("../controllers/appointment.controllers");
 
-const appointmentSchema = new mongoose.Schema({
-    date: {
-        type: Date,
-        required: true,
-    },
-    professionalId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Professional",
-        required: true,
-    },
-    userId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-        required: true,
-    },
-    status: {
-        type: String,
-        enum: ["PENDING", "CONFIRMED", "CANCELLED"],
-        default: "PENDING",
-    },
-});
+router.post("/create-appointment", appointmentController.crearCita); 
 
-const Appointment = mongoose.model("Appointment", appointmentSchema);
+router.post("/delete-appointment", appointmentController.eliminarCita);
 
-router.post("/create-appointment", async (req, res) => {
-    try {
-        const { date, professionalId, userId } = req.body;
-
-        const appointment = new Appointment({
-            date,
-            professionalId,
-            userId,
-        });
-        
-        // Verificación de que la fecha y hora de la cita no choque con una cita confirmada
-        const appointments = await Appointment.find({
-            professionalId,
-            date: new Date(date), 
-            status: "CONFIRMED" 
-        });
-
-        if (appointments.length > 0) {
-        return res.status(400).json({ message: "El profesional ya tiene una cita confirmada para esa fecha y hora" });
-        }
-
-        // Verificacion de que la fecha de la cita no sea anterior a la fecha actual
-        if (appointment.date < new Date()) {
-            return res.status(400).json({ message: "La fecha de la cita no puede ser anterior a la fecha actual" });
-        }
-
-        appointment.status = "CONFIRMED";
-
-        // Guardar la cita
-        const savedAppointment = await appointment.save();
-
-        // Mensaje de éxito
-        res.status(200).json({ message: "Cita creada con éxito", savedAppointment });
-    } catch (error) {
-        // Error al crear cita
-        res.status(400).json({ message: "Error al crear cita", error: error.message });
-    }
-});
-
-router.post("/delete-appointment", async (req, res) => {
-    try {
-        const { appointmentId } = req.body;
-
-        // Buscar la cita por ID
-        const appointment = await Appointment.findById(appointmentId);
-
-        // Verificar si la cita existe
-        if (!appointment) {
-            return res.status(404).json({ message: "Cita no encontrada" });
-        }
-
-        // Verificar si la cita ya ha sido cancelada
-        if (appointment.status === "CANCELLED") {
-            return res.status(400).json({ message: "La cita ya está cancelada" });
-        }
-
-        appointment.status = "CANCELLED";
-
-        // Guardar los cambios
-        const updatedAppointment = await appointment.save();
-
-        // Responder con la cita actualizada
-        res.status(200).json({ message: "Cita cancelada con éxito", updatedAppointment });
-    } catch (error) {
-        res.status(400).json({ message: "Error al cancelar la cita", error: error.message });
-    }
-});
-
-router.post("/appointment-list", async (req, res) => {
-    try {
-        // Buscar citas
-        const appointments = await Appointment.find();
-
-        // Lista de citas
-        res.status(200).json({ message: "Lista de citas", appointments });
-    } catch (error) {
-        // Error al obtener listas
-        res.status(400).json({ message: "Error al obtener las citas", error: error.message });
-    }
-});
+router.post("/appointment-list", appointmentController.listaCitas);
 
 module.exports = router;
