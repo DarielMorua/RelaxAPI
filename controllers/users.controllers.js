@@ -82,15 +82,18 @@ async function deleteUser(req, res) {
   }
 }
 
-async function login(req, res, next) {
+async function login(req, res) {
   const { email, password } = req.body;
 
   try {
     // Buscar el usuario por el email
     const user = await User.findOne({ email, password });
 
-    if (!user) {
-      return res.status(404).json({ message: "Usuario no encontrado" });
+     // Verificar si la contraseña es correcta
+     if (!user || user.password !== password) {
+      return res.status(404).json({ message: "Usuario o Contraseña incorrecto" });
+    } else {
+      console.log("Confirmación de sesión");
     }
 
     try {
