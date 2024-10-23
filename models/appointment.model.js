@@ -2,22 +2,14 @@ var express = require("express");
 var router = express.Router();
 var mongoose = require("mongoose");
 
-const reviewSchema = new mongoose.Schema({
-    profesionalId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Profesional",
-        required: true,
-    },
+const appointmentSchema = new mongoose.Schema({
     date: {
         type: Date,
         required: true,
     },
-    startTime: {
-        type: Number,
-        required: true,
-    },
-    endTime: {
-        type: Number,
+    professionalId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Professional",
         required: true,
     },
     userId: {
@@ -25,4 +17,13 @@ const reviewSchema = new mongoose.Schema({
         ref: "User",
         required: true,
     },
+    status: {
+        type: String,
+        enum: ["PENDING", "CONFIRMED", "CANCELLED"],
+        default: "PENDING",
+    },
 });
+
+const Appointment = mongoose.model("Appointment", appointmentSchema);
+
+module.exports = Appointment;
