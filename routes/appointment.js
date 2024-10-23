@@ -106,3 +106,5 @@ router.post("/appointment-list", async (req, res) => {
         res.status(400).json({ message: "Error al obtener las citas", error: error.message });
     }
 });
+
+module.exports = router;
