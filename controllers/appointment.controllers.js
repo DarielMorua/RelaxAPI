@@ -4,6 +4,8 @@ var mongoose = require("mongoose");
 const Appointment = require("../models/appointment.model");
 const jwt = require("jsonwebtoken");
 
+const privateKey = "myprivatekey";
+
 const payload = {
   name: "Jane Doe",
   profile: "GUEST",
