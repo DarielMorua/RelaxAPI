@@ -15,6 +15,7 @@ var profesionalRouter = require("./routes/professionals");
 var favoriteRouter = require("./routes/favorite");
 var appointmentRouter = require("./routes/appointment");
 var chatRouter = require("./routes/chat");
+var exerciseRouter = require("./routes/exercises");
 
 var app = express();
 
@@ -47,6 +48,7 @@ app.use("/users", usersRouter);
 app.use("/favorite", favoriteRouter);
 app.use("/appointment", appointmentRouter);
 app.use("/chat", chatRouter);
+app.use("/exercises", exerciseRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
