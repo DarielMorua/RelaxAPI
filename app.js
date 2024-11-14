@@ -16,7 +16,7 @@ var favoriteRouter = require("./routes/favorite");
 var appointmentRouter = require("./routes/appointment");
 var chatRouter = require("./routes/chat");
 var exerciseRouter = require("./routes/exercises");
-
+var preguntasRouter = require("./routes/preguntas");
 var app = express();
 
 mongoose
@@ -49,6 +49,7 @@ app.use("/favorite", favoriteRouter);
 app.use("/appointment", appointmentRouter);
 app.use("/chat", chatRouter);
 app.use("/exercises", exerciseRouter);
+app.use("/preguntas", preguntasRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
