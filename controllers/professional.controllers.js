@@ -5,7 +5,7 @@ const Review = require("../models/review.model");
 const Profesional = require("../models/professional.model");
 const jwt = require("jsonwebtoken");
 
-const privateKey = "myprivatekey";
+const privateKey = process.env.SECRET_KEY;
 
 const payload = {
   name: "Jane Doe",

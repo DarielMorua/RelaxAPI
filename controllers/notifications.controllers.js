@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 var mongoose = require("mongoose");
 var jwt = require("jsonwebtoken");
+const privateKey = process.env.SECRET_KEY;
 
 var Notifications = require("../models/notifications.model");
 

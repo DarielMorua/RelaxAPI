@@ -6,7 +6,7 @@ var Professional = require("../models/professional.model"); // Importación corr
 var Chat = require("../models/chat.model");
 var jwt = require("jsonwebtoken");
 
-const privateKey = "myprivatekey";
+const privateKey = process.env.SECRET_KEY;
 
 async function createChat(req, res) {
   try {

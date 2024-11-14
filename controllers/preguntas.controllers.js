@@ -1,7 +1,9 @@
 var express = require("express");
 var router = express.Router();
 var mongoose = require("mongoose");
+var jwt = require("jsonwebtoken");
 const Preguntas = require("../models/preguntas.model");
+const privateKey = process.env.SECRET_KEY;
 
 async function verifyToken(req, res, next) {
   const authHeader = req.headers.authorization;

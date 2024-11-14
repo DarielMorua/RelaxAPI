@@ -5,7 +5,7 @@ const Favorite = require("../models/favorite.model");
 const Professional = require("../models/professional.model");
 const User = require("../models/users.models");
 const Review = require("../models/review.model");
-const privateKey = "myprivatekey";
+const privateKey = process.env.SECRET_KEY;
 const jwt = require("jsonwebtoken");
 
 const payload = {

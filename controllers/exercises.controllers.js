@@ -3,7 +3,7 @@ var express = require("express");
 var router = express.Router();
 var mongoose = require("mongoose");
 var jwt = require("jsonwebtoken");
-var privateKey = "myprivatekey";
+const privateKey = process.env.SECRET_KEY;
 var Exercises = require("../models/exercises.model");
 const payload = {
   name: "Jane Doe",
@@ -85,6 +85,19 @@ async function getExerciseById(req, res) {
       .json({ message: "Error al obtener el ejercicio", error: error.message });
   }
 }
+
+async function get5Exercises(req, res) {
+  try {
+    const exercises = await Exercises.find().limit(5);
+    res.status(200).json(exercises);
+  } catch (error) {
+    res.status(500).json({
+      message: "Error al obtener los ejercicios",
+      error: error.message,
+    });
+  }
+}
+
 async function updateExercise(req, res) {
   try {
     const {
@@ -137,4 +150,5 @@ module.exports = {
   updateExercise,
   deleteExercise,
   verifyToken,
+  get5Exercises,
 };

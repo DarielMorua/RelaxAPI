@@ -33,4 +33,10 @@ router.post(
   exercisesController.deleteExercise
 );
 
+router.post(
+  "/mostrar-ejercicios-recomendados",
+  exercisesController.verifyToken,
+  exercisesController.get5Exercises
+);
+
 module.exports = router;

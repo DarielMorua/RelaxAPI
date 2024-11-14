@@ -4,7 +4,7 @@ var mongoose = require("mongoose");
 var User = require("../models/users.models");
 const jwt = require("jsonwebtoken");
 
-const privateKey = "myprivatekey";
+const privateKey = process.env.SECRET_KEY;
 
 const payload = {
   name: "Jane Doe",
