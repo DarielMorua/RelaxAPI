@@ -146,7 +146,7 @@ async function deleteExercise(req, res) {
 
 async function getAllExercisesByCategory(req, res) {
   try {
-    const exercises = await Exercises.find.populate("category").exec();
+    const exercises = await Exercises.find().populate("category").exec();
     res.status(200).json(exercises);
   } catch (error) {
     res.status(500).json({
