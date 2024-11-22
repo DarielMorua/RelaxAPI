@@ -144,13 +144,24 @@ async function deleteExercise(req, res) {
   }
 }
 
-async function getAllExercisesByCategory(req, res) {
+async function getExercisesByCategory(req, res) {
   try {
-    const exercises = await Exercises.find().populate("category").exec();
-    res.status(200).json(exercises);
+    const categories = await Category.find();
+
+    const result = await Promise.all(
+      categories.map(async (category) => {
+        const exercises = await Exercise.find({ category: category._id });
+        return {
+          category: category.name,
+          exercises: exercises,
+        };
+      })
+    );
+
+    res.status(200).json(result);
   } catch (error) {
     res.status(500).json({
-      message: "Error al obtener los ejercicios",
+      message: "Error al obtener los ejercicios agrupados por categoría",
       error: error.message,
     });
   }
