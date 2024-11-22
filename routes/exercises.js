@@ -39,4 +39,10 @@ router.post(
   exercisesController.get5Exercises
 );
 
+router.post(
+  "/mostrar-ejercicios-por-categoria",
+  exercisesController.verifyToken,
+  exercisesController.getAllExercisesByCategory
+);
+
 module.exports = router;

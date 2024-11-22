@@ -143,6 +143,19 @@ async function deleteExercise(req, res) {
     });
   }
 }
+
+async function getAllExercisesByCategory(req, res) {
+  try {
+    const exercises = await Exercises.find.populate("category").exec();
+    res.status(200).json(exercises);
+  } catch (error) {
+    res.status(500).json({
+      message: "Error al obtener los ejercicios",
+      error: error.message,
+    });
+  }
+}
+
 module.exports = {
   createExercise,
   getExercises,
@@ -151,4 +164,5 @@ module.exports = {
   deleteExercise,
   verifyToken,
   get5Exercises,
+  getAllExercisesByCategory,
 };

@@ -1,0 +1,146 @@
+[
+  {
+    "title": "Respiración Diafragmática",
+    "category": "Respiración",
+    "image": "https://example.com/images/respiracion-diafragmatica.jpg",
+    "shortDescription": "Técnica para respirar profundamente usando el diafragma.",
+    "longDescription": "Este ejercicio consiste en inhalar profundamente, permitiendo que el diafragma se expanda, y exhalar lentamente. Es ideal para reducir el estrés y oxigenar mejor el cuerpo.",
+    "urlVideo": "https://www.youtube.com/embed/eP3VHiqmelc"
+  },
+  {
+    "title": "Respiración Alternada",
+    "category": "Respiración",
+    "image": "https://i.pinimg.com/736x/5b/9d/37/5b9d37ce1a26fe4ff0fe01571c97d4db.jpg",
+    "shortDescription": "Una técnica de yoga que equilibra la energía corporal.",
+    "longDescription": "Usa un dedo para cerrar una fosa nasal mientras inhalas por la otra. Alterna las fosas nasales en cada respiración. Es ideal para la concentración.",
+    "urlVideo": "https://www.youtube.com/embed/JDD8r65WfkA"
+  },
+  {
+    "title": "Respiración Cuadrada",
+    "category": "Respiración",
+    "image": "https://i.pinimg.com/736x/e9/90/dc/e990dc916d682dc43825b11d74591272.jpg",
+    "shortDescription": "Una técnica estructurada de respiración en 4 tiempos.",
+    "longDescription": "Inhala por 4 segundos, retén por 4, exhala por 4 y mantén sin aire por 4. Ayuda a calmar la mente en situaciones de ansiedad.",
+    "urlVideo": "https://www.youtube.com/embed/u_BcMXgws6Y"
+  },
+  {
+    "title": "Meditación en Silencio",
+    "category": "Meditación",
+    "image": "https://static.eldiario.es/clip/920fe2bf-4106-43ca-8ba4-4f1492c86897_16-9-aspect-ratio_default_0.jpg",
+    "shortDescription": "Practica la meditación sin estímulos externos.",
+    "longDescription": "Siéntate cómodamente y concéntrate en tu respiración o en el silencio a tu alrededor estos 15 minutos.",
+    "urlVideo": "https://www.youtube.com/embed/u_BcMXgws6Y"
+  },
+  {
+    "title": "Escaneo Corporal",
+    "category": "Meditación",
+    "image": "https://example.com/images/escaneo-corporal.jpg",
+    "shortDescription": "Meditación guiada para tomar conciencia de tu cuerpo.",
+    "longDescription": "Recorre mentalmente cada parte de tu cuerpo, relajando los músculos y liberando tensiones. Útil para reducir el estrés.",
+    "urlVideo": "https://www.youtube.com/embed/q96Ss9_6Y4I"
+  },
+  {
+    "title": "Meditación Guiada: Emociones",
+    "category": "Meditación",
+    "image": "https://upaninews.com/wp-content/uploads/2021/11/Neurociencia-y-emociones_def.png",
+    "shortDescription": "Usa un mantra para centrar tu atención.",
+    "longDescription": "Sigue esta meditación guiada para poder relajar y comprender emociones.",
+    "urlVideo": "https://www.youtube.com/embed/UZDY_vBWp3g?si=lDGOIG-hJ2r2MhyP"
+  },
+  {
+    "title": "Estiramiento de Espalda",
+    "category": "Estiramiento",
+    "image": "https://example.com/images/estiramiento-espalda.jpg",
+    "shortDescription": "Relaja y flexibiliza tu columna.",
+    "longDescription": "Alterna entre arquear la espalda hacia arriba (gato) y hacia abajo (vaca) durante 10 repeticiones. Ideal para liberar tensión en la espalda.",
+    "urlVideo": "https://www.youtube.com/embed/IAMYJ8EyXIU"
+  },
+  {
+    "title": "Estiramiento de Piernas",
+    "category": "Estiramiento",
+    "image": "https://example.com/images/estiramiento-piernas.jpg",
+    "shortDescription": "Estiramiento para mejorar la flexibilidad de las piernas.",
+    "longDescription": "Siéntate en el suelo con las piernas extendidas y estírate hacia adelante intentando tocar los dedos de los pies.",
+    "urlVideo": "https://www.youtube.com/embed/r8NwkYgkpKA"
+  },
+  {
+    "title": "Estiramiento de Cuello",
+    "category": "Estiramiento",
+    "image": "https://example.com/images/estiramiento-cuello.jpg",
+    "shortDescription": "Relaja la tensión acumulada en el cuello.",
+    "longDescription": "Inclina tu cabeza hacia un lado y mantén la posición durante 10 segundos, luego cambia de lado. Repite 3 veces.",
+    "urlVideo": "https://www.youtube.com/embed/C3ARTzf9BsI"
+  },
+  {
+    "title": "Relajación con Sonidos de la Naturaleza",
+    "category": "Relajación guiada",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Altja_j%C3%B5gi_Lahemaal.jpg/800px-Altja_j%C3%B5gi_Lahemaal.jpg",
+    "shortDescription": "Relájate con sonidos de agua y aves.",
+    "longDescription": "Escucha sonidos relajantes de la naturaleza mientras sigues una guía para liberar tensiones en tu cuerpo.",
+    "urlVideo": "https://www.youtube.com/embed/cYWnaj-QpHc"
+  },
+  {
+    "title": "Relajación con Música Clásica",
+    "category": "Relajación guiada",
+    "image": "https://relaxingmusic.com/cdn/shop/articles/listening-relaxing-music-at-home_1100x.jpg",
+    "shortDescription": "Usa música clásica para relajar tu mente.",
+    "longDescription": "Con estas canciones clásica suaves realiza una meditación 15 minutos para liberar el estrés.",
+    "urlVideo": "https://www.youtube.com/watch?v=RJzcjoZdb94"
+  },
+  {
+    "title": "Relajación con Cuencos Tibetanos",
+    "category": "Relajación guiada",
+    "image": "https://images.ecestaticos.com/ej8pNHr9Y1Xdu5MwQDPO2Fy-g9E=/0x0:2015x1511/1200x900/filters:fill(white):format(jpg)/f.elconfidencial.com%2Foriginal%2Fdcc%2F6a5%2F3ce%2Fdcc6a53cedaca1890565b936ede38c0b.jpg",
+    "shortDescription": "Relájate con vibraciones sonoras profundas.",
+    "longDescription": "Escucha y siente las vibraciones de los cuencos tibetanos mientras sigues una guía de respiración profunda.",
+    "urlVideo": "https://www.youtube.com/embed/4aj0tqptTyw"
+  },
+  {
+    "title": "Técnica de Anclaje",
+    "category": "Reducir la ansiedad",
+    "image": "https://www.clockwise.coop/wp-content/uploads/2023/05/relax-blog-1.png",
+    "shortDescription": "Usa un objeto físico para mantener tu atención.",
+    "longDescription": "Escoge un objeto pequeño, obsérvalo detenidamente y concéntrate en sus detalles durante unos minutos. Ayuda a calmar la mente.",
+    "urlVideo": "https://www.youtube.com/embed/u_BcMXgws6Y"
+  },
+  {
+    "title": "Ejercicio de Respiración 4-7-8",
+    "category": "Reducir la ansiedad",
+    "image": "https://cms2.vitapp.com/wp-content/uploads/2020/05/BLG452.jpg",
+    "shortDescription": "Una técnica efectiva para tranquilizarte rápidamente.",
+    "longDescription": "Inhala por 4 segundos, retén la respiración por 7 y exhala lentamente por 8 segundos. Repite varias veces.",
+    "urlVideo": "https://www.youtube.com/embed/u_BcMXgws6Y"
+  },
+  {
+    "title": "Visualización Positiva",
+    "category": "Reducir la ansiedad",
+    "image": "https://mariatrusa.org/wp-content/uploads/2022/02/AdobeStock_380244804-scaled-e1643920326201.jpeg",
+    "shortDescription": "Visualiza un lugar que te haga sentir seguro.",
+    "longDescription": "Cierra los ojos y visualiza un lugar relajante. Imagina cada detalle para sumergirte en una sensación de calma.",
+    "urlVideo": "https://www.youtube.com/embed/u_BcMXgws6Y"
+  },
+  {
+    "title": "Escritura Terapéutica",
+    "category": "Relajar la mente",
+    "image": "https://www.clinicakahlo.mx/blog/wp-content/uploads/2020/04/escritura-terapeutica-expresion-2.jpg",
+    "shortDescription": "Escribe tus pensamientos para liberar tensiones.",
+    "longDescription": "Dedica 15 minutos a escribir sobre tus emociones, sin preocuparte por la estructura. Ayuda a aclarar y relajar la mente.",
+    "urlVideo": "https://www.youtube.com/embed/u_BcMXgws6Y"
+  },
+  {
+    "title": "Técnica del Observador",
+    "category": "Relajar la mente",
+    "image": "https://blog.naturlider.com/wp-content/uploads/2020/08/AdobeStock_292486431-post-dia-mundial-relajacion-1-scaled.jpeg",
+    "shortDescription": "Observa tus pensamientos sin juzgarlos.",
+    "longDescription": "Siéntate cómodamente y deja que tus pensamientos fluyan sin detenerte en ellos. Útil para reducir el estrés mental.",
+    "urlVideo": "https://www.youtube.com/embed/u_BcMXgws6Y"
+  },
+  {
+    "title": "Lectura Relajante",
+    "category": "Relajar la mente",
+    "image": "https://sectei.cdmx.gob.mx/storage/app/uploads/public/5f2/223/9d8/5f22239d8095c165538400.jpg",
+    "shortDescription": "Dedica tiempo a una lectura tranquila.",
+    "longDescription": "Escoge un libro que te inspire calma y dedica unos minutos a leerlo en un ambiente cómodo.",
+    "urlVideo": "https://www.youtube.com/embed/u_BcMXgws6Y"
+  }
+]
