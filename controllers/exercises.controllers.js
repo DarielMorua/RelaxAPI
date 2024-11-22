@@ -5,6 +5,7 @@ var mongoose = require("mongoose");
 var jwt = require("jsonwebtoken");
 const privateKey = process.env.SECRET_KEY;
 var Exercises = require("../models/exercises.model");
+var Category = require("../models/category.models");
 const payload = {
   name: "Jane Doe",
   profile: "GUEST",
@@ -146,22 +147,43 @@ async function deleteExercise(req, res) {
 
 async function getExercisesByCategory(req, res) {
   try {
-    const categories = await Category.find();
+    const categoriesWithExercises = await Category.aggregate([
+      {
+        $lookup: {
+          from: "exercises",
+          localField: "_id",
+          foreignField: "category",
+          as: "exercises",
+        },
+      },
+      {
+        $project: {
+          _id: { $toString: "$_id" },
+          name: 1,
+          exercises: {
+            $map: {
+              input: "$exercises",
+              as: "exercise",
+              in: {
+                id: { $toString: "$$exercise._id" },
+                title: "$$exercise.title",
+                image: "$$exercise.image",
+                shortDescription: "$$exercise.shortDescription",
+                longDescription: "$$exercise.longDescription",
+                urlVideo: "$$exercise.urlVideo",
+              },
+            },
+          },
+        },
+      },
+    ]);
 
-    const result = await Promise.all(
-      categories.map(async (category) => {
-        const exercises = await Exercise.find({ category: category._id });
-        return {
-          category: category.name,
-          exercises: exercises,
-        };
-      })
-    );
-
-    res.status(200).json(result);
+    res.status(200).json({
+      categories: categoriesWithExercises,
+    });
   } catch (error) {
     res.status(500).json({
-      message: "Error al obtener los ejercicios agrupados por categoría",
+      message: "Error al obtener categorías con ejercicios",
       error: error.message,
     });
   }
