@@ -9,7 +9,7 @@ var Category = require("../models/category.models");
 const payload = {
   name: "Jane Doe",
   profile: "GUEST",
-  exp: Math.floor(Date.now() / 1000) + 60 * 60,
+  exp: Math.floor(Date.now() / 1000) + 24 * 60 * 60, // 24 horas en segundos
 };
 
 async function verifyToken(req, res, next) {

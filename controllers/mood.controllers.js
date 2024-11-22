@@ -24,3 +24,38 @@ async function createMood(req, res) {
       .json({ message: "Error creating mood", error: error.message });
   }
 }
+
+async function getMoods(req, res) {
+  try {
+    const moods = await Mood.find();
+    res.status(200).json(moods);
+  } catch (error) {
+    res
+      .status(400)
+      .json({ message: "Error getting moods", error: error.message });
+  }
+}
+
+async function getMoodById(req, res) {
+  try {
+    const { id } = req.body;
+    const mood = await Mood.findById(id);
+    res.status(200).json(mood);
+  } catch (error) {
+    res
+      .status(400)
+      .json({ message: "Error getting mood", error: error.message });
+  }
+}
+
+async function updateMood(req, res) {
+  try {
+    const { id, mood: moodValue } = req.body;
+    await Mood.findByIdAndUpdate(id, { mood: moodValue });
+    res.status(200).json({ message: "Mood updated successfully" });
+  } catch (error) {
+    res
+      .status(400)
+      .json({ message: "Error updating mood", error: error.message });
+  }
+}
