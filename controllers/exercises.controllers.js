@@ -175,5 +175,5 @@ module.exports = {
   deleteExercise,
   verifyToken,
   get5Exercises,
-  getAllExercisesByCategory,
+  getExercisesByCategory,
 };

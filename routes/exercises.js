@@ -42,7 +42,7 @@ router.post(
 router.post(
   "/mostrar-ejercicios-por-categoria",
   exercisesController.verifyToken,
-  exercisesController.getAllExercisesByCategory
+  exercisesController.getExercisesByCategory
 );
 
 module.exports = router;
