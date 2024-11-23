@@ -2,14 +2,12 @@ const Emotion = require("../models/emotion.model");
 var jwt = require("jsonwebtoken");
 const privateKey = process.env.SECRET_KEY;
 const payload = {
-  id: user._id,
   name: "Jane Doe",
   profile: "GUEST",
   exp: Math.floor(Date.now() / 1000) + 60 * 60,
 };
 async function verifyToken(req, res, next) {
   const authHeader = req.headers.authorization;
-
   if (!authHeader) {
     return res.status(403).json({ message: "Token no proporcionado" });
   }
@@ -39,13 +37,14 @@ async function submitEmotion(req, res) {
         .json({ message: "Todos los campos son obligatorios" });
     }
 
-    const userId = req.user.id; // Obtén el userId del token decodificado
+    // Obtén el usuario del token decodificado
+    const userId = req.user.id;
     if (!userId) {
       return res.status(403).json({ message: "Usuario no autorizado" });
     }
 
     const newEmotion = new Emotion({
-      userId,
+      userId, // Aquí usamos el id del usuario del token
       emotion,
       date: new Date(date),
     });

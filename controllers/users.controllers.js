@@ -6,12 +6,6 @@ const jwt = require("jsonwebtoken");
 
 const privateKey = process.env.SECRET_KEY;
 
-const payload = {
-  name: "Jane Doe",
-  profile: "GUEST",
-  exp: Math.floor(Date.now() / 1000) + 60 * 60,
-};
-
 //obtener usuario por id
 async function getUser(req, res) {
   try {
@@ -109,6 +103,13 @@ async function login(req, res) {
       console.log("Confirmación de sesión");
     }
 
+    const payload = {
+      id: user._id,
+      name: "Jane Doe",
+      profile: "GUEST",
+      exp: Math.floor(Date.now() / 1000) + 60 * 60,
+    };
+
     try {
       const newToken = await jwt.sign(payload, privateKey, {
         algorithm: "HS256",
@@ -117,6 +118,7 @@ async function login(req, res) {
         message: "Login exitoso",
         token: newToken,
         user: {
+          id: user._id,
           name: user.name,
           email: user.email,
           phone: user.phone,
