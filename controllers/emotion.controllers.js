@@ -29,14 +29,19 @@ async function verifyToken(req, res, next) {
 }
 async function submitEmotion(req, res) {
   try {
-    const { userId, emotion, date } = req.body;
-    if (!userId || !emotion || !date) {
+    const { emotion, date } = req.body;
+
+    if (!emotion || !date) {
       return res
         .status(400)
         .json({ message: "Todos los campos son obligatorios" });
     }
 
-    // Crear una nueva entrada de emoción
+    const userId = req.user.id;
+    if (!userId) {
+      return res.status(403).json({ message: "Usuario no autorizado" });
+    }
+
     const newEmotion = new Emotion({
       userId,
       emotion,
