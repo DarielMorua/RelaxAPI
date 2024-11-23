@@ -11,6 +11,7 @@ const userSchema = new mongoose.Schema({
   country: { type: String, required: true },
   active: { type: Boolean, default: true },
   favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: "Professional" }],
+  emotion: [{ type: mongoose.Schema.Types.ObjectId, ref: "Emotion" }],
 });
 
 module.exports = mongoose.model("User", userSchema);
