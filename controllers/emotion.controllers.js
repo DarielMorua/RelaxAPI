@@ -8,23 +8,24 @@ const payload = {
 };
 async function verifyToken(req, res, next) {
   const authHeader = req.headers.authorization;
+
   if (!authHeader) {
     return res.status(403).json({ message: "Token no proporcionado" });
   }
-  let authToken;
-  if (authHeader && authHeader.length) {
-    const tokenParts = authHeader.split(" ");
-    if (tokenParts.length === 2) {
-      authToken = tokenParts[1];
-      console.log(authToken);
-    }
-    try {
-      await jwt.verify(authToken, privateKey);
-      next();
-    } catch (error) {
-      console.log(error);
-      return res.status(403).json({ message: "Token inválido" });
-    }
+
+  const tokenParts = authHeader.split(" ");
+  if (tokenParts.length !== 2) {
+    return res.status(403).json({ message: "Formato de token inválido" });
+  }
+
+  const authToken = tokenParts[1];
+  try {
+    const decoded = jwt.verify(authToken, privateKey); // Decodifica el token
+    req.user = decoded; // Asigna los datos decodificados a req.user
+    next(); // Continúa al siguiente middleware o controlador
+  } catch (error) {
+    console.error("Error al verificar token:", error.message);
+    return res.status(403).json({ message: "Token inválido" });
   }
 }
 async function submitEmotion(req, res) {
@@ -37,7 +38,7 @@ async function submitEmotion(req, res) {
         .json({ message: "Todos los campos son obligatorios" });
     }
 
-    const userId = req.user.id;
+    const userId = req.user.id; // Obtén el userId del token decodificado
     if (!userId) {
       return res.status(403).json({ message: "Usuario no autorizado" });
     }
