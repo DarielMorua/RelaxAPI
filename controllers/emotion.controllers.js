@@ -2,6 +2,7 @@ const Emotion = require("../models/emotion.model");
 var jwt = require("jsonwebtoken");
 const privateKey = process.env.SECRET_KEY;
 const payload = {
+  id: user._id,
   name: "Jane Doe",
   profile: "GUEST",
   exp: Math.floor(Date.now() / 1000) + 60 * 60,
