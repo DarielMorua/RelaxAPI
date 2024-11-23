@@ -18,7 +18,7 @@ router.post(
 router.post(
   "/mostrar-notificacion",
   notificationsController.verifyToken,
-  notificationsController.getNotificationById
+  notificationsController.getNotification
 );
 
 router.post(
