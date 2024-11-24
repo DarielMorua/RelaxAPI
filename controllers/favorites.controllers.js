@@ -18,6 +18,18 @@ async function crearFavorito(req, res) {
   try {
     const { userId, professionalId } = req.body;
 
+    // Verificar si el profesional ya está en favoritos
+    const existingFavorite = await Favorite.findOne({
+      userId: userId,
+      professionalId: professionalId,
+    });
+
+    if (existingFavorite) {
+      return res.status(400).json({
+        message: "El profesional ya está en favoritos.",
+      });
+    }
+
     // Crear un nuevo favorito
     const newFavorite = new Favorite({
       userId: userId,
@@ -27,11 +39,13 @@ async function crearFavorito(req, res) {
     // Guardar el favorito en la base de datos
     await newFavorite.save();
 
-    // Actualizar el campo isFavorite del profesional a true
-    await User.findByIdAndUpdate(userId, { favorites: professionalId });
+    // Agregar el profesional al array de favoritos del usuario
+    await User.findByIdAndUpdate(userId, {
+      $addToSet: { favorites: professionalId }, // Agregar sin duplicados
+    });
 
     res.status(200).json({
-      message: "Profesional agregado como favorito y actualizado con éxito",
+      message: "Profesional agregado como favorito con éxito",
     });
   } catch (error) {
     res.status(400).json({
@@ -45,26 +59,44 @@ async function buscarFavoritos(req, res) {
   try {
     const { userId } = req.body;
 
-    // Verificar si el userId está en la solicitud
     if (!userId) {
       return res.status(400).json({ message: "El userId es requerido" });
     }
 
-    // Buscar todos los favoritos del usuario
-    const favoritos = await Favorite.find({ userId: userId }).populate(
-      "professionalId"
-    );
+    const favoritos = await Favorite.aggregate([
+      { $match: { userId: mongoose.Types.ObjectId(userId) } },
+      {
+        $lookup: {
+          from: "professionals",
+          localField: "professionalId",
+          foreignField: "_id",
+          as: "professionalDetails",
+        },
+      },
+      { $unwind: "$professionalDetails" },
+      {
+        $project: {
+          _id: 1,
+          userId: 1,
+          professionalId: 1,
+          "professionalDetails._id": 1,
+          "professionalDetails.name": 1,
+          "professionalDetails.photo": 1,
+          "professionalDetails.score": 1,
+          "professionalDetails.description": 1,
+        },
+      },
+    ]);
 
-    // Si no hay favoritos
-    if (favoritos.length === 0) {
+    if (!favoritos || favoritos.length === 0) {
       return res.status(404).json({
         message: "No se encontraron profesionales favoritos para este usuario.",
       });
     }
 
-    // Responder con la información de los profesionales favoritos
     res.status(200).json(favoritos);
   } catch (error) {
+    console.error("Error al obtener los favoritos:", error);
     res.status(500).json({
       message: "Error al obtener los profesionales favoritos",
       error: error.message,
@@ -76,27 +108,23 @@ async function removerFavoritos(req, res) {
   try {
     const { userId, professionalId } = req.body;
 
-    // Verificar si se ha enviado el userId y el professionalId
     if (!userId || !professionalId) {
       return res
         .status(400)
         .json({ message: "userId y professionalId son requeridos" });
     }
 
-    // Eliminar el favorito
     const deletedFavorite = await Favorite.findOneAndDelete({
       userId: userId,
       professionalId: professionalId,
     });
 
-    // Si no se encontró el favorito
     if (!deletedFavorite) {
       return res
         .status(404)
         .json({ message: "No se encontró este favorito para eliminar" });
     }
 
-    // Actualizar el campo isFavorite en el profesional a false
     await Professional.findByIdAndUpdate(professionalId, { isFavorite: false });
 
     res.status(200).json({
