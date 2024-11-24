@@ -21,4 +21,10 @@ router.post("/eliminar", userController.verifyToken, userController.deleteUser);
 
 router.post("/login", userController.login);
 
+router.post(
+  "/mostrar-favoritos",
+  userController.verifyToken,
+  userController.getFavoritesProfessionals
+);
+
 module.exports = router;
