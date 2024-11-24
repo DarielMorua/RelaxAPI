@@ -44,4 +44,10 @@ router.post(
   professionalController.giveReview
 );
 
+router.post(
+  "/mostrar-reviews",
+  professionalController.verifyToken,
+  professionalController.showReviews
+);
+
 module.exports = router;

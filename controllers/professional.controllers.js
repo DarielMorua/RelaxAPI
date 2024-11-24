@@ -183,6 +183,25 @@ async function verifyToken(req, res, next) {
   }
 }
 
+async function showReviews(req, res) {
+  const { professionalId } = req.body; // Obtén el professionalId del cuerpo de la solicitud
+
+  if (!professionalId) {
+    return res.status(400).json({ error: "El professionalId es obligatorio." });
+  }
+
+  try {
+    const reviews = await Review.find({ professionalId }).populate(
+      "userId",
+      "name"
+    );
+    res.status(200).json(reviews);
+  } catch (error) {
+    console.error("Error al obtener reviews:", error);
+    res.status(500).json({ error: "Error al obtener las reviews." });
+  }
+}
+
 module.exports = {
   createProfessional,
   findProfessional,
@@ -191,4 +210,5 @@ module.exports = {
   giveReview,
   showAllProfessionals,
   verifyToken,
+  showReviews,
 };
