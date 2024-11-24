@@ -3,7 +3,7 @@ var router = express.Router();
 var mongoose = require("mongoose");
 var User = require("../models/users.models");
 const jwt = require("jsonwebtoken");
-
+const Professional = require("../models/professional.model");
 const privateKey = process.env.SECRET_KEY;
 
 //obtener usuario por id

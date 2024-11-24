@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema({
   phone: { type: String, required: true, unique: true },
   country: { type: String, required: true },
   active: { type: Boolean, default: true },
-  favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: "Professional" }],
+  favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: "Profesional" }],
   emotion: [{ type: mongoose.Schema.Types.ObjectId, ref: "Emotion" }],
 });
 
