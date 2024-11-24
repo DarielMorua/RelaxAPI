@@ -158,10 +158,16 @@ async function verifyToken(req, res, next) {
 
 async function getFavoritesProfessionals(req, res) {
   try {
-    const user = await User.findById(req.userId).populate("favorites");
+    const { userId } = req.body;
+
+    if (!userId) {
+      return res.status(400).json({ error: "El userId es obligatorio." });
+    }
+
+    const user = await User.findById(userId).populate("favorites");
 
     if (!user) {
-      return res.status(404).json({ error: "Usuario no encontrado" });
+      return res.status(404).json({ error: "Usuario no encontrado." });
     }
 
     const favorites = user.favorites;
@@ -169,7 +175,7 @@ async function getFavoritesProfessionals(req, res) {
     return res.status(200).json(favorites);
   } catch (error) {
     console.error("Error al obtener profesionales favoritos:", error);
-    return res.status(500).json({ error: "Error al obtener los favoritos" });
+    return res.status(500).json({ error: "Error al obtener los favoritos." });
   }
 }
 
