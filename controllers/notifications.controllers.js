@@ -71,7 +71,21 @@ async function updateNotification(req, res) {
 async function deleteNotification(req, res) {
   try {
     const { id } = req.body;
+
+    // Validar que el ID es válido
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: "ID no válido" });
+    }
+
+    // Verificar si la notificación existe
+    const notification = await Notifications.findById(id);
+    if (!notification) {
+      return res.status(404).json({ message: "Notificación no encontrada" });
+    }
+
+    // Eliminar la notificación
     await Notifications.findByIdAndDelete(id);
+
     res.status(200).json({ message: "Notificación eliminada con éxito" });
   } catch (error) {
     res.status(500).json({

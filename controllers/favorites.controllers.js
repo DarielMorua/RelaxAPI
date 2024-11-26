@@ -18,7 +18,6 @@ async function crearFavorito(req, res) {
   try {
     const { userId, professionalId } = req.body;
 
-    // Verificar si el profesional ya está en favoritos
     const existingFavorite = await Favorite.findOne({
       userId: userId,
       professionalId: professionalId,
@@ -30,18 +29,15 @@ async function crearFavorito(req, res) {
       });
     }
 
-    // Crear un nuevo favorito
     const newFavorite = new Favorite({
       userId: userId,
       professionalId: professionalId,
     });
 
-    // Guardar el favorito en la base de datos
     await newFavorite.save();
 
-    // Agregar el profesional al array de favoritos del usuario
     await User.findByIdAndUpdate(userId, {
-      $addToSet: { favorites: professionalId }, // Agregar sin duplicados
+      $addToSet: { favorites: professionalId },
     });
 
     res.status(200).json({
