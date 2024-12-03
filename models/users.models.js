@@ -12,6 +12,7 @@ const userSchema = new mongoose.Schema({
   active: { type: Boolean, default: true },
   favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: "Profesional" }],
   emotion: [{ type: mongoose.Schema.Types.ObjectId, ref: "Emotion" }],
+  rol: { type: String, default: "user" },
 });
 
 module.exports = mongoose.model("User", userSchema);

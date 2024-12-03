@@ -123,6 +123,7 @@ async function login(req, res) {
           email: user.email,
           phone: user.phone,
           country: user.country,
+          rol: user.rol,
         },
       });
     } catch (error) {
