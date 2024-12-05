@@ -2,8 +2,8 @@ var express = require("express");
 var router = express.Router();
 const profesionalModel = require("../models/professional.model");
 const Review = require("../models/review.model");
-const Profesional = require("../models/professional.model");
 const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 const privateKey = process.env.SECRET_KEY;
 
@@ -130,7 +130,7 @@ async function giveReview(req, res) {
     await newReview.save();
 
     // Buscar el profesional y agregar la nueva reseña
-    const professional = await Profesional.findById(professionalId);
+    const professional = await profesionalModel.findById(professionalId);
     professional.reviews.push(newReview._id);
 
     // Calcular el nuevo promedio de calificación
@@ -154,7 +154,10 @@ async function giveReview(req, res) {
 //obtener todos los profesionales solo foto y nombre
 async function showAllProfessionals(req, res) {
   try {
-    const professionals = await Profesional.find({}, { name: 1, photo: 1 });
+    const professionals = await profesionalModel.find(
+      {},
+      { name: 1, photo: 1 }
+    );
     res.status(200).json(professionals);
   } catch (error) {
     res.status(500).json({ error: "Error al obtener profesionales" });

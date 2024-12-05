@@ -3,7 +3,7 @@ var router = express.Router();
 var mongoose = require("mongoose");
 var User = require("../models/users.models");
 const jwt = require("jsonwebtoken");
-const Professional = require("../models/professional.model");
+const Profesional = require("../models/professional.model");
 const privateKey = process.env.SECRET_KEY;
 
 //obtener usuario por id
@@ -26,24 +26,45 @@ async function getUser(req, res) {
 //crear usuario
 async function createUser(req, res) {
   try {
+    // Crear el usuario
     const user = await User.create(req.body);
+
+    // Verificar si el rol es "Profesional"
+    if (user.rol === "Profesional") {
+      const { name, lastname, photo, phone } = req.body;
+
+      // Crear el documento del profesional
+      const profesional = new Profesional({
+        name,
+        lastname,
+        photo,
+        phone,
+        creationDate: new Date(),
+      });
+
+      // Guardar el documento del profesional
+      await profesional.save();
+
+      // Asociar el ID del profesional al campo "favorites" del usuario
+      user.favorites.push(profesional._id);
+      await user.save();
+    }
+
+    // Enviar respuesta con el usuario creado
     res.status(200).json(user);
   } catch (error) {
     if (error.code === 11000) {
-      // Error de clave duplicada (E11000)
       const field = Object.keys(error.keyValue)[0]; // Captura el campo duplicado (email o phone)
       res
         .status(400)
         .json({ message: `Error: el campo '${field}' ya está en uso.` });
     } else {
-      // Otro tipo de error
       res.status(400).json({ "Error al crear usuario": error.message });
     }
   }
 }
 
 //actualizar usuario por id
-// Actualizar usuario por id desde el body sin usar el spread operator
 async function updateUser(req, res) {
   try {
     const { id } = req.body; // Extraemos el id

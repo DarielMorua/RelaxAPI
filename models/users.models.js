@@ -12,7 +12,12 @@ const userSchema = new mongoose.Schema({
   active: { type: Boolean, default: true },
   favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: "Profesional" }],
   emotion: [{ type: mongoose.Schema.Types.ObjectId, ref: "Emotion" }],
-  rol: { type: String, default: "user" },
+  rol: { type: String, default: "User" },
+  photo: {
+    type: String,
+    default:
+      "https://res.cloudinary.com/dbkv7w2jf/image/upload/fl_preserve_transparency/v1733437940/DALL_E_2024-12-05_16.32.08_-_A_simple_minimalistic_default_profile_picture_design_for_a_relaxation_app._The_image_features_a_soft_abstract_silhouette_of_a_human_head_and_shoulde_dd0wzf.jpg?_s=public-apps",
+  },
 });
 
 module.exports = mongoose.model("User", userSchema);

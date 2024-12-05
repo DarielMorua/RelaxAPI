@@ -18,9 +18,14 @@ const profesionalSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  photo: {
+  lastname: {
     type: String,
     required: true,
+  },
+  photo: {
+    type: String,
+    default:
+      "https://res.cloudinary.com/dbkv7w2jf/image/upload/fl_preserve_transparency/v1733437940/DALL_E_2024-12-05_16.32.08_-_A_simple_minimalistic_default_profile_picture_design_for_a_relaxation_app._The_image_features_a_soft_abstract_silhouette_of_a_human_head_and_shoulde_dd0wzf.jpg?_s=public-apps",
   },
   score: {
     type: Number,
@@ -38,7 +43,7 @@ const profesionalSchema = new mongoose.Schema({
   },
   description: {
     type: String,
-    required: true,
+    default: "Profesional",
   },
   phone: {
     type: String,
@@ -46,7 +51,10 @@ const profesionalSchema = new mongoose.Schema({
   },
   ubicacion: {
     type: ubicacionSchema,
-    required: true,
+    default: {
+      latitude: 0,
+      longitude: 0,
+    },
   },
   isActive: {
     type: Boolean,

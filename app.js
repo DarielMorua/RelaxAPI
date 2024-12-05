@@ -20,6 +20,7 @@ var preguntasRouter = require("./routes/preguntas");
 var categoryRouter = require("./routes/category");
 var notificationsRouter = require("./routes/notifications");
 var emotionRouter = require("./routes/emotion");
+var aboutusRouter = require("./routes/aboutus");
 var app = express();
 
 mongoose
@@ -56,6 +57,7 @@ app.use("/preguntas", preguntasRouter);
 app.use("/category", categoryRouter);
 app.use("/notifications", notificationsRouter);
 app.use("/emotion", emotionRouter);
+app.use("/aboutus", aboutusRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
