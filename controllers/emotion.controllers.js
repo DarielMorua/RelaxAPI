@@ -1,11 +1,15 @@
 const Emotion = require("../models/emotion.model");
 var jwt = require("jsonwebtoken");
 const privateKey = process.env.SECRET_KEY;
+const mongoose = require("mongoose");
+var express = require("express");
+
 const payload = {
   name: "Jane Doe",
   profile: "GUEST",
   exp: Math.floor(Date.now() / 1000) + 60 * 60,
 };
+
 async function verifyToken(req, res, next) {
   const authHeader = req.headers.authorization;
   if (!authHeader) {
@@ -69,7 +73,7 @@ async function getEmotionsByUserId(req, res) {
 
     const emotions = await Emotion.aggregate([
       {
-        $match: { userId: mongoose.Types.ObjectId(userId) }, // Filtra las emociones por el userId
+        $match: { userId: new mongoose.Types.ObjectId(userId) }, // Filtra las emociones por el userId
       },
       {
         $lookup: {
