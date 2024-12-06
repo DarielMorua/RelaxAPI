@@ -40,8 +40,15 @@ async function sendMessage(req, res) {
         .json({ message: "El mensaje no puede estar vacío" });
     }
 
-    // Convertir chatId a ObjectId si es un string
-    const chatObjectId = new mongoose.Types.ObjectId(chatId);
+    // Validar si el chatId tiene el formato correcto (24 caracteres hexadecimales)
+    if (!/^[a-fA-F0-9]{24}$/.test(chatId)) {
+      return res.status(400).json({
+        message: "El chatId debe ser una cadena de 24 caracteres hexadecimales",
+      });
+    }
+
+    // Convertir chatId a ObjectId correctamente
+    const chatObjectId = new mongoose.Types.ObjectId(chatId); // Uso de 'new' aquí
 
     // Buscar el chat por su ObjectId
     const chat = await Chat.findById(chatObjectId);
