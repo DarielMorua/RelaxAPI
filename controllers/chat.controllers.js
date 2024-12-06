@@ -41,7 +41,7 @@ async function sendMessage(req, res) {
     }
 
     // Convertir chatId a ObjectId si es un string
-    const chatObjectId = mongoose.Types.ObjectId(chatId);
+    const chatObjectId = new mongoose.Types.ObjectId(chatId);
 
     // Buscar el chat por su ObjectId
     const chat = await Chat.findById(chatObjectId);
