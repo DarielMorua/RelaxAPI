@@ -67,7 +67,39 @@ async function getEmotionsByUserId(req, res) {
       return res.status(400).json({ message: "El userId es obligatorio" });
     }
 
-    const emotions = await Emotion.find({ userId });
+    const emotions = await Emotion.aggregate([
+      {
+        $match: { userId: mongoose.Types.ObjectId(userId) }, // Filtra las emociones por el userId
+      },
+      {
+        $lookup: {
+          from: "users", // Nombre de la colección de usuarios
+          localField: "userId", // El campo de la colección de emociones
+          foreignField: "_id", // El campo en la colección de usuarios
+          as: "userDetails", // El nombre del campo donde se almacenarán los datos del usuario
+        },
+      },
+      {
+        $unwind: {
+          path: "$userDetails", // Descompón el arreglo userDetails en un solo objeto
+          preserveNullAndEmptyArrays: true, // Si no se encuentra información del usuario, no lo omite
+        },
+      },
+      {
+        $project: {
+          // Proyección para devolver solo los campos deseados
+          emotion: 1,
+          date: 1,
+          "userDetails.name": 1,
+          "userDetails.lastname": 1,
+          "userDetails.email": 1,
+          "userDetails.phone": 1,
+          "userDetails.country": 1,
+          "userDetails.rol": 1,
+          "userDetails.photo": 1,
+        },
+      },
+    ]);
 
     res.status(200).json({ emotions });
   } catch (error) {

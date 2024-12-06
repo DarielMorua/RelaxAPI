@@ -29,10 +29,22 @@ async function createNotification(req, res) {
     });
   }
 }
-
 async function getNotifications(req, res) {
   try {
-    const notifications = await Notifications.find();
+    const notifications = await Notifications.aggregate([
+      {
+        $sort: { date: -1 }, // Ordena las notificaciones por la fecha de forma descendente
+      },
+      {
+        $project: {
+          title: 1,
+          message: 1,
+          date: 1,
+          seen: 1,
+        },
+      },
+    ]);
+
     res.status(200).json(notifications);
   } catch (error) {
     res.status(500).json({

@@ -30,7 +30,6 @@ async function createChat(req, res) {
     });
   }
 }
-
 async function sendMessage(req, res) {
   try {
     const { chatId, senderId, senderModel, content } = req.body;
@@ -41,7 +40,11 @@ async function sendMessage(req, res) {
         .json({ message: "El mensaje no puede estar vacío" });
     }
 
-    const chat = await Chat.findById(chatId);
+    // Convertir chatId a ObjectId si es un string
+    const chatObjectId = mongoose.Types.ObjectId(chatId);
+
+    // Buscar el chat por su ObjectId
+    const chat = await Chat.findById(chatObjectId);
 
     if (!chat) {
       return res.status(404).json({ message: "Chat no encontrado" });
@@ -51,6 +54,7 @@ async function sendMessage(req, res) {
       return res.status(400).json({ message: "El remitente no es válido" });
     }
 
+    // Agregar el mensaje al array de mensajes
     chat.messages.push({
       sender: senderId,
       senderModel: senderModel,
@@ -58,10 +62,13 @@ async function sendMessage(req, res) {
       timestamp: new Date(),
     });
 
+    // Actualizar la fecha de la última actualización
     chat.lastUpdated = new Date();
 
+    // Guardar los cambios en el chat
     await chat.save();
 
+    // Responder al cliente con la información del chat actualizado
     res.status(200).json({
       message: "Mensaje enviado con éxito",
       chat: chat,
