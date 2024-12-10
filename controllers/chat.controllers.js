@@ -86,30 +86,6 @@ async function sendMessage(req, res) {
       return res.status(404).json({ message: "Usuario no encontrado" });
     }
 
-    // Verificar que solo los usuarios con rol "User" puedan enviar mensajes
-    if (senderModel === "User" && sender.rol !== "User") {
-      return res
-        .status(400)
-        .json({
-          message: "Solo los usuarios con rol 'User' pueden enviar mensajes",
-        });
-    }
-
-    if (senderModel === "Profesional") {
-      return res
-        .status(400)
-        .json({ message: "Los profesionales no pueden enviar mensajes" });
-    }
-
-    // Verificar que el remitente está intentando enviar un mensaje al destinatario correcto
-    if (senderModel === "User" && chat.professional.toString() !== senderId) {
-      return res
-        .status(400)
-        .json({
-          message: "El mensaje solo puede ser enviado a un profesional",
-        });
-    }
-
     // Agregar el mensaje al array de mensajes
     chat.messages.push({
       sender: senderId,
