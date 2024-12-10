@@ -60,6 +60,11 @@ const profesionalSchema = new mongoose.Schema({
     type: Boolean,
     default: true,
   },
+  userId: {
+    type: mongoose.Schema.Types.ObjectId, // Referencia al modelo User
+    ref: "User",
+    required: true,
+  },
 });
 // indice unico
 profesionalSchema.index({ phone: 1 }, { unique: true });
