@@ -12,7 +12,7 @@ const chatSchema = new mongoose.Schema({
   },
   professional: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Profesional",
+    ref: "User",
     required: true,
   },
   messages: [
