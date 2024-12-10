@@ -156,7 +156,7 @@ async function showAllProfessionals(req, res) {
   try {
     const professionals = await profesionalModel.find(
       {},
-      { name: 1, photo: 1 }
+      { name: 1, photo: 1, userId: 1 }
     );
     res.status(200).json(professionals);
   } catch (error) {
