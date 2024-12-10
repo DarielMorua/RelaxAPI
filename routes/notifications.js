@@ -3,11 +3,7 @@ var router = express.Router();
 var mongoose = require("mongoose");
 var notificationsController = require("../controllers/notifications.controllers");
 
-router.post(
-  "/crear-notificacion",
-  notificationsController.verifyToken,
-  notificationsController.createNotification
-);
+router.post("/crear-notificacion", notificationsController.createNotification);
 
 router.post(
   "/mostrar-notificaciones",
