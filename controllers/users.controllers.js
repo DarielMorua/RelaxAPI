@@ -40,7 +40,7 @@ async function createUser(req, res) {
         photo,
         phone,
         creationDate: new Date(),
-        user: user._id, // Asocia el _id del usuario al campo "user" del profesional
+        userId: user._id, // Asocia el _id del usuario al campo "user" del profesional
       });
 
       // Guardar el documento del profesional
