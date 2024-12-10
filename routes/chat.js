@@ -21,4 +21,9 @@ router.post(
   chatController.showChat
 );
 
+router.post(
+  "/obtener-chats-profesional",
+  chatController.verifyToken,
+  chatController.getChatByIdProfesional
+);
 module.exports = router;

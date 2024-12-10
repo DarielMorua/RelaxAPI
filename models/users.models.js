@@ -20,4 +20,13 @@ const userSchema = new mongoose.Schema({
   },
 });
 
+//indice unico
+userSchema.index({ email: 1 }, { unique: true });
+
+//indice compuesto
+userSchema.index({ rol: 1, active: 1, email: 1 });
+
+//indice simple
+userSchema.index({ name: 1 });
+
 module.exports = mongoose.model("User", userSchema);

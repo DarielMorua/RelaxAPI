@@ -27,4 +27,10 @@ router.post(
   userController.getFavoritesProfessionals
 );
 
+router.post(
+  "/obtener-activos-por-rol",
+  userController.verifyToken,
+  userController.getActiveUsersByRole
+);
+
 module.exports = router;

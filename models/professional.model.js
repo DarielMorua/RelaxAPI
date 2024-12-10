@@ -61,6 +61,17 @@ const profesionalSchema = new mongoose.Schema({
     default: true,
   },
 });
+// indice unico
+profesionalSchema.index({ phone: 1 }, { unique: true });
+
+//indice compuesto
+profesionalSchema.index({ name: 1, lastname: 1 });
+
+//indice sparse
+profesionalSchema.index({ reviews: 1 }, { sparse: true });
+
+//indice simple
+profesionalSchema.index({ creationDate: 1 });
 
 // Crear el modelo basado en el esquema
 const Profesional = mongoose.model("Profesional", profesionalSchema);

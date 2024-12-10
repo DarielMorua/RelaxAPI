@@ -201,6 +201,24 @@ async function getFavoritesProfessionals(req, res) {
   }
 }
 
+async function getActiveUsersByRole(req, res) {
+  try {
+    const { rol } = req.body;
+
+    const users = await User.find(
+      { rol: rol, active: true },
+      { email: 1, rol: 1, active: 1 }
+    );
+
+    res.status(200).json(users);
+  } catch (error) {
+    console.error("Error al obtener usuarios:", error);
+    res
+      .status(500)
+      .json({ message: "Error al obtener usuarios", error: error.message });
+  }
+}
+
 module.exports = {
   getUser,
   createUser,
@@ -209,4 +227,5 @@ module.exports = {
   login,
   verifyToken,
   getFavoritesProfessionals,
+  getActiveUsersByRole,
 };

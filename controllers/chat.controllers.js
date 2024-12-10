@@ -129,9 +129,31 @@ async function showChat(req, res) {
   }
 }
 
+async function getChatByIdProfesional(req, res) {
+  try {
+    const { professionalId } = req.body;
+
+    const chat = await Chat.find({ professional: professionalId })
+      .populate("user", "name")
+      .populate("professional", "name")
+      .exec();
+
+    if (!chat) {
+      return res.status(404).json({ message: "Chat no encontrado" });
+    }
+
+    res.status(200).json({ chat });
+  } catch (error) {
+    res
+      .status(400)
+      .json({ message: "Error al mostrar chat", error: error.message });
+  }
+}
+
 module.exports = {
   createChat,
   sendMessage,
   verifyToken,
   showChat,
+  getChatByIdProfesional,
 };
