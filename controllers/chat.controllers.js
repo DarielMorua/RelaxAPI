@@ -7,11 +7,34 @@ var Chat = require("../models/chat.model");
 var jwt = require("jsonwebtoken");
 
 const privateKey = process.env.SECRET_KEY;
-
 async function createChat(req, res) {
   try {
     const { userId, professionalId } = req.body;
 
+    // Buscar al usuario y al profesional
+    const user = await User.findById(userId);
+    const professional = await User.findById(professionalId); // Ambos son de tipo User, pero con roles distintos
+
+    if (!user || !professional) {
+      return res
+        .status(404)
+        .json({ message: "Usuario o profesional no encontrado" });
+    }
+
+    // Verificar que el usuario tenga el rol "User" y el destinatario tenga el rol "Profesional"
+    if (user.rol !== "User") {
+      return res.status(400).json({
+        message: "Solo los usuarios con rol 'User' pueden iniciar un chat",
+      });
+    }
+
+    if (professional.rol !== "Profesional") {
+      return res
+        .status(400)
+        .json({ message: "El destinatario debe ser un profesional" });
+    }
+
+    // Crear y guardar el nuevo chat
     const newChat = new Chat({
       user: userId,
       professional: professionalId,
@@ -48,7 +71,7 @@ async function sendMessage(req, res) {
     }
 
     // Convertir chatId a ObjectId correctamente
-    const chatObjectId = new mongoose.Types.ObjectId(chatId); // Uso de 'new' aquí
+    const chatObjectId = new mongoose.Types.ObjectId(chatId);
 
     // Buscar el chat por su ObjectId
     const chat = await Chat.findById(chatObjectId);
@@ -57,8 +80,34 @@ async function sendMessage(req, res) {
       return res.status(404).json({ message: "Chat no encontrado" });
     }
 
-    if (senderModel !== "User" && senderModel !== "Professional") {
-      return res.status(400).json({ message: "El remitente no es válido" });
+    // Verificar que el remitente tenga rol "User"
+    const sender = await User.findById(senderId);
+    if (!sender) {
+      return res.status(404).json({ message: "Usuario no encontrado" });
+    }
+
+    // Verificar que solo los usuarios con rol "User" puedan enviar mensajes
+    if (senderModel === "User" && sender.rol !== "User") {
+      return res
+        .status(400)
+        .json({
+          message: "Solo los usuarios con rol 'User' pueden enviar mensajes",
+        });
+    }
+
+    if (senderModel === "Profesional") {
+      return res
+        .status(400)
+        .json({ message: "Los profesionales no pueden enviar mensajes" });
+    }
+
+    // Verificar que el remitente está intentando enviar un mensaje al destinatario correcto
+    if (senderModel === "User" && chat.professional.toString() !== senderId) {
+      return res
+        .status(400)
+        .json({
+          message: "El mensaje solo puede ser enviado a un profesional",
+        });
     }
 
     // Agregar el mensaje al array de mensajes
@@ -131,18 +180,22 @@ async function showChat(req, res) {
 
 async function getChatByIdProfesional(req, res) {
   try {
-    const { professionalId } = req.body;
+    const { userId } = req.body;
+    const user = await User.findById(userId);
+    if (user.rol === "Profesional") {
+      const chat = await Chat.find({ professional: userId })
+        .populate("user", "name")
+        .populate("professional", "name")
+        .exec();
 
-    const chat = await Chat.find({ professional: professionalId })
-      .populate("user", "name")
-      .populate("professional", "name")
-      .exec();
+      if (!chat) {
+        return res.status(404).json({ message: "Chat no encontrado" });
+      }
 
-    if (!chat) {
-      return res.status(404).json({ message: "Chat no encontrado" });
+      res.status(200).json({ chat });
+    } else {
+      return res.status(400).json({ message: "No es un profesional" });
     }
-
-    res.status(200).json({ chat });
   } catch (error) {
     res
       .status(400)
