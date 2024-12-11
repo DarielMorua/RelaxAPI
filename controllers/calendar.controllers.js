@@ -9,8 +9,10 @@ const privateKey = process.env.SECRET_KEY;
 async function createCalendar(req, res) {
   try {
     const { userId } = req.body;
-    const calendarData = { ...req.body, userId }; // Añadimos el userId al calendario
-    const createCalendar = await Calendar.create(calendarData); // Creamos el calendario
+    // añadimos el userId al calendario
+    const calendarData = { ...req.body, userId };
+    // creamos el calendario
+    const createCalendar = await Calendar.create(calendarData);
     res.status(200).json(createCalendar);
   } catch (error) {
     res.status(400).json({ "Error al crear calendario": error.message });
@@ -23,8 +25,8 @@ async function getCalendar(req, res) {
     if (!userId) {
       return res.status(400).json({ error: "El userId es requerido" });
     }
-
-    const calendars = await Calendar.find({ userId }); // Buscamos los calendarios por userId
+    // buscamos los calendarios por userId
+    const calendars = await Calendar.find({ userId });
     if (calendars.length === 0) {
       return res
         .status(404)
@@ -38,7 +40,7 @@ async function getCalendar(req, res) {
 
 async function deleteCalendar(req, res) {
   try {
-    const { userId, calendarId } = req.body; // Tomamos el userId y el calendarId desde el body
+    const { userId, calendarId } = req.body;
     if (!userId || !calendarId) {
       return res
         .status(400)

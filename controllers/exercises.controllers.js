@@ -1,4 +1,3 @@
-//CRUD de ejercicios, categoria,  Imagen, titulo, shortDescription, LongDescription, urlVideovar
 var express = require("express");
 var router = express.Router();
 var mongoose = require("mongoose");

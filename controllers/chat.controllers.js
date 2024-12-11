@@ -11,9 +11,9 @@ async function createChat(req, res) {
   try {
     const { userId, professionalId } = req.body;
 
-    // Buscar al usuario y al profesional
+    // buscar al usuario y al profesional
     const user = await User.findById(userId);
-    const professional = await User.findById(professionalId); // Ambos son de tipo User, pero con roles distintos
+    const professional = await User.findById(professionalId);
 
     if (!user || !professional) {
       return res
@@ -21,7 +21,7 @@ async function createChat(req, res) {
         .json({ message: "Usuario o profesional no encontrado" });
     }
 
-    // Verificar que el usuario tenga el rol "User" y el destinatario tenga el rol "Profesional"
+    // verificar que el usuario tenga el rol "User" y "Profesional"
     if (user.rol !== "User") {
       return res.status(400).json({
         message: "Solo los usuarios con rol 'User' pueden iniciar un chat",
@@ -34,7 +34,7 @@ async function createChat(req, res) {
         .json({ message: "El destinatario debe ser un profesional" });
     }
 
-    // Crear y guardar el nuevo chat
+    // crear y guardar el nuevo chat
     const newChat = new Chat({
       user: userId,
       professional: professionalId,
@@ -63,30 +63,30 @@ async function sendMessage(req, res) {
         .json({ message: "El mensaje no puede estar vacío" });
     }
 
-    // Validar si el chatId tiene el formato correcto (24 caracteres hexadecimales)
+    // validar si el chatId tiene el formato correcto por error en AndroidStudio
     if (!/^[a-fA-F0-9]{24}$/.test(chatId)) {
       return res.status(400).json({
         message: "El chatId debe ser una cadena de 24 caracteres hexadecimales",
       });
     }
 
-    // Convertir chatId a ObjectId correctamente
+    // convertir chatId a ObjectId correctamente
     const chatObjectId = new mongoose.Types.ObjectId(chatId);
 
-    // Buscar el chat por su ObjectId
+    // buscar el chat por su ObjectId
     const chat = await Chat.findById(chatObjectId);
 
     if (!chat) {
       return res.status(404).json({ message: "Chat no encontrado" });
     }
 
-    // Verificar que el remitente tenga rol "User"
+    // verificar tenga rol "User"
     const sender = await User.findById(senderId);
     if (!sender) {
       return res.status(404).json({ message: "Usuario no encontrado" });
     }
 
-    // Agregar el mensaje al array de mensajes
+    // agregar el mensaje al array de mensajes
     chat.messages.push({
       sender: senderId,
       senderModel: senderModel,
@@ -94,13 +94,11 @@ async function sendMessage(req, res) {
       timestamp: new Date(),
     });
 
-    // Actualizar la fecha de la última actualización
+    // actualizar la fecha de la ultima actualizacion
     chat.lastUpdated = new Date();
 
-    // Guardar los cambios en el chat
     await chat.save();
 
-    // Responder al cliente con la información del chat actualizado
     res.status(200).json({
       message: "Mensaje enviado con éxito",
       chat: chat,

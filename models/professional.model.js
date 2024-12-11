@@ -78,8 +78,6 @@ profesionalSchema.index({ reviews: 1 }, { sparse: true });
 //indice simple
 profesionalSchema.index({ creationDate: 1 });
 
-// Crear el modelo basado en el esquema
 const Profesional = mongoose.model("Profesional", profesionalSchema);
 
-// Exportar el modelo, no solo el esquema
 module.exports = Profesional;

@@ -23,9 +23,9 @@ async function verifyToken(req, res, next) {
 
   const authToken = tokenParts[1];
   try {
-    const decoded = jwt.verify(authToken, privateKey); // Decodifica el token
-    req.user = decoded; // Asigna los datos decodificados a req.user
-    next(); // Continúa al siguiente middleware o controlador
+    const decoded = jwt.verify(authToken, privateKey);
+    req.user = decoded;
+    next();
   } catch (error) {
     console.error("Error al verificar token:", error.message);
     return res.status(403).json({ message: "Token inválido" });
@@ -41,14 +41,14 @@ async function submitEmotion(req, res) {
         .json({ message: "Todos los campos son obligatorios" });
     }
 
-    // Obtén el usuario del token decodificado
+    // obtn el usuario del token decodificado
     const userId = req.user.id;
     if (!userId) {
       return res.status(403).json({ message: "Usuario no autorizado" });
     }
 
     const newEmotion = new Emotion({
-      userId, // Aquí usamos el id del usuario del token
+      userId,
       emotion,
       date: new Date(date),
     });
@@ -73,25 +73,24 @@ async function getEmotionsByUserId(req, res) {
 
     const emotions = await Emotion.aggregate([
       {
-        $match: { userId: new mongoose.Types.ObjectId(userId) }, // Filtra las emociones por el userId
+        $match: { userId: new mongoose.Types.ObjectId(userId) },
       },
       {
         $lookup: {
-          from: "users", // Nombre de la colección de usuarios
-          localField: "userId", // El campo de la colección de emociones
-          foreignField: "_id", // El campo en la colección de usuarios
-          as: "userDetails", // El nombre del campo donde se almacenarán los datos del usuario
+          from: "users",
+          localField: "userId",
+          foreignField: "_id",
+          as: "userDetails",
         },
       },
       {
         $unwind: {
-          path: "$userDetails", // Descompón el arreglo userDetails en un solo objeto
-          preserveNullAndEmptyArrays: true, // Si no se encuentra información del usuario, no lo omite
+          path: "$userDetails",
+          preserveNullAndEmptyArrays: true,
         },
       },
       {
         $project: {
-          // Proyección para devolver solo los campos deseados
           emotion: 1,
           date: 1,
           "userDetails.name": 1,

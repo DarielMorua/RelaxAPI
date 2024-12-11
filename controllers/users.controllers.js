@@ -26,36 +26,33 @@ async function getUser(req, res) {
 //crear usuario
 async function createUser(req, res) {
   try {
-    // Crear el usuario
+    // crear el usuario
     const user = await User.create(req.body);
 
-    // Verificar si el rol es "Profesional"
+    // verificar si el rol es "Profesional"
     if (user.rol === "Profesional") {
       const { name, lastname, photo, phone } = req.body;
 
-      // Crear el documento del profesional
+      // crear el documento del profesional
       const profesional = new Profesional({
         name,
         lastname,
         photo,
         phone,
         creationDate: new Date(),
-        userId: user._id, // Asocia el _id del usuario al campo "user" del profesional
+        userId: user._id,
       });
 
-      // Guardar el documento del profesional
       await profesional.save();
 
-      // Asociar el ID del profesional al campo "favorites" del usuario
       user.favorites.push(profesional._id);
       await user.save();
     }
 
-    // Enviar respuesta con el usuario creado
     res.status(200).json(user);
   } catch (error) {
     if (error.code === 11000) {
-      const field = Object.keys(error.keyValue)[0]; // Captura el campo duplicado (email o phone)
+      const field = Object.keys(error.keyValue)[0]; // captura el campo duplicado (email o phone)
       res
         .status(400)
         .json({ message: `Error: el campo '${field}' ya está en uso.` });
@@ -68,12 +65,11 @@ async function createUser(req, res) {
 //actualizar usuario por id
 async function updateUser(req, res) {
   try {
-    const { id } = req.body; // Extraemos el id
+    const { id } = req.body;
     if (!id) {
       return res.status(400).json({ error: "El id del usuario es requerido" });
     }
 
-    // Actualizamos directamente con el req.body
     const user = await User.findByIdAndUpdate(id, req.body, { new: true });
 
     if (!user) {
@@ -111,10 +107,8 @@ async function login(req, res) {
   const { email, password } = req.body;
 
   try {
-    // Buscar el usuario por el email
     const user = await User.findOne({ email, password });
 
-    // Verificar si la contraseña es correcta
     if (!user || user.password !== password) {
       return res
         .status(404)
